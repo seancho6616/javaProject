@@ -113,7 +113,8 @@ public class Insert {
             e.printStackTrace();
         }
 	}
-	
+
+	// 주문하기
 	public void storder(int menuid, int cartid, int count) {
 		List<String> menu = new ArrayList<>();
 		try {
