@@ -6,26 +6,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Select {
-	// 가게 이름 가지고 오기
-	public List<String> SelectStores(){
-		List<String> stores = new ArrayList<String>();
+	// user 정보 가지고 오기
+	public static  List<String> SelectUser(String id) {
+		List<String> infor = new ArrayList<String>();
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
 			System.out.println("DB 연결 완료");
-			String select_stores = "select storename from owner";
-			PreparedStatement pt = conn.prepareStatement(select_stores);
+			String select_id = "select * from user where userid = ?";
+			PreparedStatement pt = conn.prepareStatement(select_id);
+			pt.setString(1, id);
 			ResultSet rs = pt.executeQuery();
 			
-			while(rs.next()) {
-				stores.add(rs.getString("storename"));
+			if(rs.next()) {
+				infor.add(rs.getString("userid"));
+				infor.add(rs.getString("pwd"));
+				infor.add(rs.getString("adress"));
+				infor.add(rs.getString("name"));
 			}
 			conn.close();
 			System.out.println("연결해제");
 		}catch (Exception e) {
 			System.out.println("DB 연결 오류");
 		}
-		return stores;
+		return infor;
 	}
 	// user들 id 가져오기
 	public List<String> SelectUsers(){
@@ -48,6 +52,33 @@ public class Select {
 		}
 		return users;
 	}
+	
+	// owner 정보 가지고 오기
+	public static List<String> SelectOwner(String id){
+		List<String> infor = new ArrayList<String>();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
+			String select_id = "select * from owner where ownerid = ?";
+			PreparedStatement pt = conn.prepareStatement(select_id);
+			pt.setString(1, id);
+			ResultSet rs = pt.executeQuery();
+			
+			if(rs.next()) {
+				infor.add(rs.getString("ownerid"));
+				infor.add(rs.getString("pwd"));
+				infor.add(rs.getString("adress"));
+				infor.add(rs.getString("name"));
+				infor.add(rs.getString("storename"));
+			}
+			conn.close();
+			System.out.println("연결해제");
+		}catch (Exception e) {
+			System.out.println("DB 연결 오류");
+		}
+		return infor;
+	}
 	// owner들 id 가져오기
 	public List<String> SelectOwners(){
 		List<String> owners = new ArrayList<String>();
@@ -69,6 +100,29 @@ public class Select {
 		}
 		return owners;
 	}
+
+	// 가게들 이름 가지고 오기
+	public List<String> SelectStores(){
+		List<String> stores = new ArrayList<String>();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
+			String select_stores = "select storename from owner";
+			PreparedStatement pt = conn.prepareStatement(select_stores);
+			ResultSet rs = pt.executeQuery();
+			
+			while(rs.next()) {
+				stores.add(rs.getString("storename"));
+			}
+			conn.close();
+			System.out.println("연결해제");
+		}catch (Exception e) {
+			System.out.println("DB 연결 오류");
+		}
+		return stores;
+	}	
+	
 	// 해당 가게 메뉴와 가격 가지고 오기 리스트에 배열로 해서
 	public List<String[]> SelectMenu(String ownerid){
 		List<String[]> menu = new ArrayList<>();
@@ -76,14 +130,14 @@ public class Select {
 			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
 			System.out.println("DB 연결 완료");
-			String select_owners = "select menuname, price from menu where ownerid = ?";
+			String select_owners = "select menuid, menuname, price from menu where ownerid = ?";
 			PreparedStatement pt = conn.prepareStatement(select_owners);
 			pt.setString(1, ownerid);
 			
 			ResultSet rs = pt.executeQuery();
 			
 			while(rs.next()) {
-				String[] menu2 = {rs.getString("menuname"), rs.getString("price")};
+				String[] menu2 = {rs.getString("menuname"), rs.getString("price"), rs.getString("menuid")};
 				menu.add(menu2);
 			}
 			conn.close();
@@ -93,5 +147,6 @@ public class Select {
 		}
 		return menu;
 	}
+	
 }
 
