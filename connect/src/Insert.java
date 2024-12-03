@@ -154,4 +154,30 @@ public class Insert {
         }
 	}
 	
+	// 주문하기
+		public void receipt(List<String> infor, int count) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+				Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.32.138:3306/pj2db", "pj2","111111"); // JDBC 연결
+				System.out.println("DB 연결 완료");
+				String insert_receipt = "insert receipt into (menuid, userid, storename, menu, count, price, date)"
+						+ " values (?,?,?,?,?,?,?)";
+				PreparedStatement pt = conn.prepareStatement(insert_receipt);
+				pt.setInt(1, Integer.parseInt(infor.get(0)));
+				pt.setString(2, infor.get(1));
+				pt.setString(3, infor.get(2));
+				pt.setString(4, infor.get(3));
+				pt.setInt(5, count);
+				pt.setInt(6, Integer.parseInt(infor.get(5)));
+				
+				pt.executeUpdate(); // SQL 실행
+				
+				System.out.println("데이터 삽입 완료");
+				
+				conn.close();
+	        } catch (Exception e) {
+	            System.out.println("DB 연결 오류");
+	            e.printStackTrace();
+	        }
+		}
 }
