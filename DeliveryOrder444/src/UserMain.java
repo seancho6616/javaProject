@@ -4,21 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserMain {
-    static DTBL d = DTBL();
-    static String userid;
-    static List<String> userData = new ArrayList<String>();
-    public static void main(String[] args) {
-        userid = d.getUserid(); // 테스트용 ID
-        userData = Select.SelectUser(userid);
-
-        if (userData != null && userData.size() >= 4) {
-            d.setUserid(userData.get(0)); // Index 0: userid
-            System.out.println("User ID 저장 성공: " + d.getUserid());
-        } else {
-            System.err.println("User 데이터가 올바르지 않습니다.");
-        }
+	private static String userid;
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(() -> showLoadingScreen());
     }
-
+	public static void screen(String id) {
+		userid = id;
+		SwingUtilities.invokeLater(() ->UserMain.main(new String[]{}));
+	}
     private static void showLoadingScreen() {
         JFrame loadingFrame = new JFrame("로딩 중...");
         JLabel loadingLabel = new JLabel("메인 화면을 준비 중입니다...", SwingConstants.CENTER);
@@ -103,7 +96,8 @@ public class UserMain {
                         new Cart(cartModel).showCartWindow(); // 장바구니 창 열기
                         break;
                     case "내정보":
-                        new MyInfo(userData); // 내정보 창 열기
+                    	List<String> user = Select.SelectUser(userid);                   	 
+                        new MyInfo(user); // 내정보 창 열기
                         break;
                 }
             });

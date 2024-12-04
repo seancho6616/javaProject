@@ -152,5 +152,29 @@ public class Select {
 		}
 		return menu;
 	}
+	public List<String[]> SelectCart(String userid){
+		List<String[]> menu = new ArrayList<>();
+		try {
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
+			
+			String select_cart = "select menuid, count, total, date from cart where userid = ?";
+			PreparedStatement pt = conn.prepareStatement(select_cart);
+			pt.setString(1, userid);
+			
+			ResultSet rs = pt.executeQuery();
+			
+			while(rs.next()) {
+				String[] menu2 = {rs.getString("menuid"), rs.getString("menuname"), 
+						rs.getString("price"), rs.getString("menuimg")};
+				menu.add(menu2);
+			}
+			conn.close();
+			System.out.println("연결해제");
+		}catch (Exception e) {
+			System.out.println("DB 연결 오류");
+		}
+		return menu;
+	}
 }
 

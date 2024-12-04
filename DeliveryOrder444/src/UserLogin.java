@@ -69,7 +69,7 @@ public class UserLogin extends JFrame {
 	                    parentPage.dispose();
 	                }
 	                dispose(); // 현재 로그인 창 닫기
-	                SwingUtilities.invokeLater(() -> UserMain.main(new String[]{})); // UserMain 창 열기
+	                SwingUtilities.invokeLater(() -> UserMain.screen(id)); // UserMain 창 열기
             	}else {
                     JOptionPane.showMessageDialog(null, "로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.", "오류", JOptionPane.ERROR_MESSAGE);
                 }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyInfo extends JFrame {	
@@ -47,9 +48,23 @@ public class MyInfo extends JFrame {
 
         JButton updateButton = new JButton("수정");
         updateButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "정보가 수정되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+        	List<String> updateUser = new ArrayList<String>();
+            
+        	updateUser.add(idField.getText());
+        	updateUser.add(new String(passwordField.getPassword()));
+        	updateUser.add(addressField.getText());
+        	updateUser.add(nameField.getText());
+        	
+        	if(nameField.getText().isEmpty() || idField.getText().isEmpty() || 
+			addressField.getText().isEmpty() || passwordField.getPassword().length == 0 ) {
+        		JOptionPane.showMessageDialog(null, "입력되지 않은 곳이 있습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        	}else {
+        		UpdateInformation up = new UpdateInformation();
+            	up.UpdateUser(updateUser);
+                JOptionPane.showMessageDialog(this, "정보가 수정되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+        	}
         });
-
 
         buttonPanel.add(updateButton);
 
