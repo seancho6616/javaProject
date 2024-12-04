@@ -1,15 +1,14 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class login {
+	
 	public int LoginUser(String id, String pw) {
 		int result = 2;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.33.71:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 			String sql_login_user = "select * from user where userid = ?";
 			PreparedStatement pt = conn.prepareStatement(sql_login_user);
 			pt.setString(1, id);
@@ -37,9 +36,8 @@ public class login {
 	public int LoginOwner(String id, String pw) {
 		int result = 2;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.33.71:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 			String sql_login_owner = "select * from owner where ownerid = ?";
 			PreparedStatement pt = conn.prepareStatement(sql_login_owner);
 			pt.setString(1, id);

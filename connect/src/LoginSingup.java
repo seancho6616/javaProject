@@ -1,7 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class LoginSingup {
+
     public static void main(String[] args) {
         // 메인 프레임 생성
         JFrame frame = new JFrame("로그인 및 회원가입");
@@ -64,7 +71,59 @@ public class LoginSingup {
 
         frame.add(bottomPanel, BorderLayout.CENTER);
 
+        // 로그인 버튼 클릭 이벤트 처리
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = idField.getText(); // 입력된 아이디
+                String pw = String.valueOf(pwField.getPassword()); // 입력된 비밀번호
+
+                login l = new login();
+                int loginResult = l.LoginUser(id, pw); // 로그인 메서드 호출
+                
+                
+                if (loginResult == 0) {
+                    JOptionPane.showMessageDialog(frame, "로그인 성공!");
+                } else if (loginResult == 1) {
+                    JOptionPane.showMessageDialog(frame, "비밀번호가 틀렸습니다.");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "아이디를 찾을 수 없습니다.");
+                }
+            }
+        });
+
         // 프레임 표시
         frame.setVisible(true);
+    }
+
+    // 로그인 메서드
+    public static int performLogin(String id, String pw) {
+        int result = 2;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+            Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.33.71:3306/pj2db", "pj2", "111111"); // JDBC 연결
+            System.out.println("DB 연결 완료");
+
+            String sql_login = "SELECT * FROM user WHERE userid = ?";
+            PreparedStatement pt = conn.prepareStatement(sql_login);
+            pt.setString(1, id);
+
+            ResultSet rs = pt.executeQuery();
+            if (rs.next()) {
+                String pwdb = rs.getString("pwd");
+                if (pwdb.equals(pw)) {
+                    result = 0; // 로그인 성공
+                } else {
+                    result = 1; // 비밀번호 틀림
+                }
+            } else {
+                result = 2; // 아이디 없음
+            }
+            conn.close();
+            System.out.println("연결 해제");
+        } catch (Exception e) {
+            System.out.println("DB 연결 오류: " + e.getMessage());
+        }
+        return result;
     }
 }

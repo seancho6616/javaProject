@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -9,37 +8,37 @@ import java.util.List;
 
 public class Insert {
 	// user 회원가입
-	public void UserLoginSingup(List<String> user) {
+	public boolean UserLoginSingup(List<String> user) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
-			String insert_user = "insert into user values(?,?,?,?)";
+			String insert_user = "insert into user values (?,?,?,?)";
 			PreparedStatement pt = conn.prepareStatement(insert_user);
 			pt.setString(1, user.get(0));
 			pt.setString(2, user.get(1));
-			pt.setString(3, user.get(2));
+			pt.setString(3, user.get(3));
 			pt.setString(4, user.get(2));
+			
 			
 			pt.executeUpdate(); // SQL 실행
             System.out.println("데이터 삽입 완료");
 
             conn.close();
             System.out.println("연결 해제");
-
+            return true;
         } catch (Exception e) {
             System.out.println("DB 연결 오류");
             e.printStackTrace();
+            return false;
         }
 	}	
 	
 	// owner 회원가입
-	public void OwnerLoginSingup(List<String> owner) {
+	public boolean OwnerLoginSingup(List<String> owner) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.32.138:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String insert_owner = "insert into owner values (?,?,?,?,?,?,?)";
 			PreparedStatement pt = conn.prepareStatement(insert_owner);
@@ -49,25 +48,27 @@ public class Insert {
 			pt.setString(4, owner.get(3));
 			pt.setString(5, owner.get(4));
 			pt.setString(6, owner.get(5));
+			pt.setString(7, owner.get(6));
 			
 			pt.executeUpdate(); // SQL 실행
             System.out.println("데이터 삽입 완료");
 
             conn.close();
             System.out.println("연결 해제");
+            return true;
 
         } catch (Exception e) {
             System.out.println("DB 연결 오류");
             e.printStackTrace();
+            return false;
         }
 	}
 	
 	// 메뉴 추가 
 	public void MenuInsert(List<String> menu) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.32.138:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String insert_menu = "insert into menu (ownerid, menuname, price, foodimg) values (?,?,?,?)";
 			PreparedStatement pt = conn.prepareStatement(insert_menu);
@@ -92,9 +93,8 @@ public class Insert {
 	// 장바구니 담기
 	public void cart(int menuid, String userid, int count, int price) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.32.138:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String insert_cart = "insert into cart (menuid, userid, count, total, date) "
 					+ "values (?,?,?,?,?)";
@@ -122,9 +122,9 @@ public class Insert {
 	public void storder(int menuid, String ownerid, List<String> cart) {
 		List<String> menu = new ArrayList<>();
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.32.138:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
+			
 			String selectMenu = "select * from menu where menuid = ?";
 			PreparedStatement pt = conn.prepareStatement(selectMenu);
 			pt.setInt(1, menuid);
@@ -163,9 +163,9 @@ public class Insert {
 	public void receipt(int menuid, String userid,String storename, List<String> cart) {
 		List<String> menu = new ArrayList<>();
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://10.20.32.138:3306/pj2db", "pj2","111111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
+			
 			String selectMenu = "select * from menu where menuid = ?";
 			PreparedStatement pt = conn.prepareStatement(selectMenu);
 			pt.setInt(1, menuid);
@@ -200,5 +200,18 @@ public class Insert {
             System.out.println("DB 연결 오류");
             e.printStackTrace();
         }
+	}
+	static public void main(String[] args) {
+		List<String> owner = new ArrayList<String>();
+		owner.add("qqqq");
+		owner.add("1111");
+		owner.add("aa");
+		owner.add("so");
+		owner.add("jam");
+		owner.add("ss");
+		owner.add("ww");
+		Insert ins = new Insert();
+		ins.OwnerLoginSingup(owner);
+		
 	}
 }

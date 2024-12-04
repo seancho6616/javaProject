@@ -1,14 +1,12 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class Deleted {
 	// user 정보 삭제
 	public void DeletedUser(String userid) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String deleted_user = "delete from user where userid = ?";
 			PreparedStatement pt = conn.prepareStatement(deleted_user);
@@ -29,9 +27,8 @@ public class Deleted {
 	//owner 정보 삭제
 	public void DeletedOwner(String ownerid) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String deleted_owner = "delete from owner where ownerid = ?";
 			PreparedStatement pt = conn.prepareStatement(deleted_owner);
@@ -52,9 +49,8 @@ public class Deleted {
 	// 메뉴 정보 삭제
 	public void DeletedMenu(String ownerid, int menuid) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String deleted_menu = "delete from menu where ownerid = ? and menuid = ?";
 			PreparedStatement pt = conn.prepareStatement(deleted_menu);
@@ -76,9 +72,8 @@ public class Deleted {
 	// 카트 정보 삭제
 	public void DeletedCart(String userid, int menuid) {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
-			System.out.println("DB 연결 완료");
+			Connection conn = DBconnecter.getConnection();
+			System.out.println("DB 연결");
 		
 			String deleted_cart = "delete from cart where userid = ? and menuid = ?";
 			PreparedStatement pt = conn.prepareStatement(deleted_cart);
