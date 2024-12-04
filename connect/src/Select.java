@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ public class Select {
 	public static  List<String> SelectUser(String id) {
 		List<String> infor = new ArrayList<String>();
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-			
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 			String select_id = "select * from user where userid = ?";
 			PreparedStatement pt = conn.prepareStatement(select_id);
 			pt.setString(1, id);
@@ -35,9 +36,9 @@ public class Select {
 	public List<String> SelectUsers(){
 		List<String> users = new ArrayList<String>();
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-			
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 			String select_users = "select userid from user";
 			PreparedStatement pt = conn.prepareStatement(select_users);
 			ResultSet rs = pt.executeQuery();
@@ -57,9 +58,9 @@ public class Select {
 	public static List<String> SelectOwner(String id){
 		List<String> infor = new ArrayList<String>();
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-			
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 			String select_id = "select * from owner where ownerid = ?";
 			PreparedStatement pt = conn.prepareStatement(select_id);
 			pt.setString(1, id);
@@ -81,14 +82,13 @@ public class Select {
 		}
 		return infor;
 	}
-	
 	// owner들 id 가져오기
 	public List<String> SelectOwners(){
 		List<String> owners = new ArrayList<String>();
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-			
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 			String select_owners = "select ownerid from owner";
 			PreparedStatement pt = conn.prepareStatement(select_owners);
 			ResultSet rs = pt.executeQuery();
@@ -108,9 +108,9 @@ public class Select {
 	public List<String> SelectStores(){
 		List<String> stores = new ArrayList<String>();
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-			
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 			String select_stores = "select storename from owner";
 			PreparedStatement pt = conn.prepareStatement(select_stores);
 			ResultSet rs = pt.executeQuery();
@@ -130,9 +130,9 @@ public class Select {
 	public List<String[]> SelectMenu(String ownerid){
 		List<String[]> menu = new ArrayList<>();
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-			
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 			String select_owners = "select menuid, menuname, price from menu where ownerid = ?";
 			PreparedStatement pt = conn.prepareStatement(select_owners);
 			pt.setString(1, ownerid);

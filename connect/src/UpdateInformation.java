@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.List;
 
@@ -6,8 +7,9 @@ public class UpdateInformation {
 	// user 정보 수정
 	public void UpdateUser(List<String> user) {
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 		
 			String update_user = "update user set pwd = ?, adress = ?, name = ? where userid = ?";
 			PreparedStatement pt = conn.prepareStatement(update_user);
@@ -31,8 +33,9 @@ public class UpdateInformation {
 	// owner 정보 수정
 	public void UpdateOwner(List<String> owner) {
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 		
 			String update_owner = "update user set"
 					+ " pwd = ?, adress = ?, name = ?, storename = ?, storeimg = ?, category = ?"
@@ -61,8 +64,9 @@ public class UpdateInformation {
 	// user 돈 충전
 	public void AddUserMoney(String userid, int money) {
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 		
 			String insert_user_money = "update user set money = ? where userid = ?";
 			PreparedStatement pt = conn.prepareStatement(insert_user_money);
@@ -81,34 +85,12 @@ public class UpdateInformation {
         }
 	}
 	
-	// owner 사진 이미지 추가 
-	public void AddOwnerImg(String ownerid, String img) {
-		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
-		
-			String insert_owner_img = "update owner set storename = ? where ownerid = ?";
-			PreparedStatement pt = conn.prepareStatement(insert_owner_img);
-			pt.setString(1, img);
-			pt.setString(2, ownerid);
-			
-			pt.executeUpdate(); // SQL 실행
-            System.out.println("데이터 삽입 완료");
-
-            conn.close();
-            System.out.println("연결 해제");
-
-        } catch (Exception e) {
-            System.out.println("DB 연결 오류");
-            e.printStackTrace();
-        }
-	}
-	
 	// 메뉴 정보 수정
 	public void UpdateMenu(List<String> menu) {
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 		
 			String update_menu = "update menu set "
 					+ "menuname =?, price=?, menuimg =? "
@@ -135,8 +117,9 @@ public class UpdateInformation {
 	// 장바구니 개수 수정
 	public void UpdateCartCount(int cartid, int count) {
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 		
 			String update_count = "update cart set count = ? where cartid = ?";
 			PreparedStatement pt = conn.prepareStatement(update_count);
@@ -158,8 +141,9 @@ public class UpdateInformation {
 	// 주문완료
 	public void ChangeCheck(String orderid, String checked) {
 		try {
-			Connection conn = DBconnecter.getConnection();
-			System.out.println("DB 연결");
+			Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sampledb", "root","1111"); // JDBC 연결
+			System.out.println("DB 연결 완료");
 		
 			String update_check = "update storeder set checked = ? where orderid = ?";
 			PreparedStatement pt = conn.prepareStatement(update_check);
